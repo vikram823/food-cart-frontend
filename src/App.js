@@ -4,17 +4,19 @@ import { Nav } from "./components";
 import { Home, ProductsPage, Cart, SingleProduct } from "./pages";
 import { CartContext } from "./CartContext";
 import { useState, useEffect } from "react";
+import { getCart, storeCart } from "./helper";
 
-function App(props) {
+function App() {
   const [cart, setCart] = useState({});
 
   useEffect(() => {
-    const cart = window.localStorage.getItem("cart");
-    setCart(JSON.parse(cart));
+    getCart().then((cart) => {
+      setCart(JSON.parse(cart));
+    });
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("cart", JSON.stringify(cart));
+    storeCart(cart);
   }, [cart]);
 
   return (
